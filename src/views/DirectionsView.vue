@@ -3,38 +3,41 @@
     <div class="grid grid-cols-12 mt-4 shadow-md">
 
       <div class="col-span-2 mx-auto">
+
         <div @click="router.push('/')">
           <ArrowLeftIcon :size="35" />
         </div>
+
         <div class="h-16 mt-4 w-full">
           <div :class="[isPickupActive ? 'circle-black' : 'circle-gray' ]" />
           <div class="line"></div>
           <div :class="[!isPickupActive ? 'square-black' : 'square-gray' ]" />
         </div>
+
       </div>
 
-      <div class="col-span-9">
-
+      <div class="col-span-10 pr-4">
         <div class="w-full h-5"></div>
 
         <div class="mb-2 mt-5">
           <AutoCompleteInput
-            @click="isPickupActive = true"
+            theId="firstInput"
             v-model:input="pickup"
-            :inputRef="true"
             placeholder="Enter pick-up location"
+            @clearInput="clearInputFunc('firstInput')"
+            @isActive="isPickupActive = true"
           />
         </div>
 
         <div class="mb-3">
           <AutoCompleteInput
-            @click="isPickupActive = false"
+            theId="secondInput"
             v-model:input="destination"
-            :inputRef="false"
             placeholder="Where to?"
+            @clearInput="clearInputFunc('secondInput')"
+            @isActive="isPickupActive = false"
           />
         </div>
-
       </div>
     </div>
 
@@ -71,19 +74,19 @@
 
   let isPickupActive = ref(true)
 
-  let pickup = ref(null)
-  let destination = ref(null)
-  let addressData = ref(null)
+  let pickup = ref('')
+  let destination = ref('')
+  let addressData = ref('')
 
   onMounted(() => {
-    pickup.value = direction.pickup
-    destination.value = direction.destination
+    document.getElementById("firstInput").focus()
   })
 
   const storeAddress = (address) => {
-    if (isPickupActive.value) {
+    if (isPickupActive.value === true) {
       direction.pickup = address
       pickup.value = address
+      addressData.value = ''
     } else {
       direction.destination = address
       destination.value = address
@@ -94,19 +97,31 @@
     }
   }
 
+  const clearInputFunc = (inputId) => {
+    if (inputId === 'firstInput') {
+      pickup.value = ''; 
+      direction.pickup = '';
+    } 
+
+    if (inputId === 'secondInput') {
+      destination.value = ''; 
+      direction.destination = '';
+    }
+  }
+  
   const findAddress = debounce(async (address) => {
     try {
-      if (address.length < 1) { 
-        addressData.value = null 
-        return null
+      if (address === '' || address === null) { 
+        addressData.value = '' 
+        return ''
       } 
 
-      let res = await axios.get('http://localhost:4001/api/address/' + address)
+      let res = await axios.get('address/' + address)
       addressData.value = res.data
     } catch (err) {
       console.log(err)
     }
-  }, 500)
+  }, 300)
 
   watch(pickup, async (pickup) => await findAddress(pickup) )
   watch(destination, async (destination) => await findAddress(destination) )

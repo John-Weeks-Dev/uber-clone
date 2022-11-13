@@ -6,16 +6,20 @@ const bodyParser = require('body-parser')
 require('dotenv').config()
 const port = process.env.PORT || 4001
 
+axios.defaults.baseURL = process.env.GOOGLE_MAPS_API_URL
+
 app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/api/address/:address', async (req, res) => {
     try {
+      if (req.params.address === 'null') return res.status(200).json('');
+
         let data = await axios.get(
-            'https://maps.googleapis.com/maps/api/place/autocomplete/json' + 
+            'place/autocomplete/json' + 
             '?input=' + req.params.address + 
             '&types=address' + 
-            '&key=AIzaSyCjQvZjx1XKvB8xQ9o4DgpCF5l7e7oT4cQ'
+            '&key=' + process.env.GOOGLE_MAPS_API_KEY
         )
 
         res.status(200).json(data.data.predictions);
@@ -27,11 +31,11 @@ app.get('/api/address/:address', async (req, res) => {
 app.get('/api/distance/:pickup/:destination', async (req, res) => {
     try {
         let data = await axios.get(
-            'https://maps.googleapis.com/maps/api/distancematrix/json' + 
+            'distancematrix/json' + 
             '?origins=' + req.params.pickup + 
             '&destinations=' + req.params.destination + 
             '&units=imperial' + 
-            '&key=AIzaSyCjQvZjx1XKvB8xQ9o4DgpCF5l7e7oT4cQ'
+            '&key=' + process.env.GOOGLE_MAPS_API_KEY
         )
 
         res.status(200).json(data.data);

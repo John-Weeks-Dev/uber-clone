@@ -1,9 +1,14 @@
 <template>
-  <div id="AutoCompleteInput">
+  <div 
+    id="AutoCompleteInput" 
+    class="flex items-center"
+  >
     <input 
+        :id="theId"
+        @click="emit('isActive', true);"
         v-model="inputComputed"
         class="
-            text-lg
+            text-md
             bg-gray-100
             appearance-none 
             rounded 
@@ -17,35 +22,30 @@
             focus:bg-gray-200
         "
         type="text" 
-        :ref="inputRef ? 'isInputRef' : ''"
         :placeholder="placeholder" 
+        autocomplete="off"
+    />
+    <WindowCloseIcon 
+      fillColor="#2e2e2d" 
+      @click="$emit('clearInput')" 
     />
   </div>
 </template>
 
 <script setup>
 
-  import { computed, defineEmits, defineProps, nextTick, onMounted, ref, toRefs } from 'vue';
+  import { computed, defineEmits, defineProps, toRefs } from 'vue';
+  import WindowCloseIcon from 'vue-material-design-icons/WindowClose.vue';
 
-  let isInputRef = ref(null)
-
-  onMounted(() => {
-    nextTick(() => {
-        if (inputRef) {
-            isInputRef.value.focus()
-        }
-    });
-  })
-
-  const emit = defineEmits(['update:input'])
+  const emit = defineEmits(['update:input', 'clearInput', 'isActive'])
 
   const props = defineProps({
+    theId: String,
     input: String,
-    inputRef: Boolean,
     placeholder: String
   })
 
-  const { input, inputRef, placeholder } = toRefs(props)
+  const { theId, input, placeholder } = toRefs(props)
 
   const inputComputed = computed({
     get: () => input.value,

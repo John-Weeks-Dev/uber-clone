@@ -4,7 +4,7 @@
     <div 
       id="BackBtn" 
       class="absolute z-50 rounded-full bg-white p-1 top-8 left-4"
-      @click="router.push('/directions')"
+      @click="goBack()"
     >
       <ArrowLeftIcon :size="40" />
     </div>
@@ -100,6 +100,8 @@
   import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue';
   import { useDirectionStore } from '@/store/direction-store';
 
+  import mapStyles from '../mapStyles'
+
   const router = useRouter()
   const direction = useDirectionStore()
 
@@ -113,6 +115,12 @@
     setTimeout(() => { initMap() }, 50)
   })
 
+  const goBack = () => {
+    router.push('/directions')
+    direction.pickup = ''
+    direction.destination = ''
+  }
+
   const initMap = () => {
 
     const directionsService = new window.google.maps.DirectionsService()
@@ -125,7 +133,6 @@
       }
     });
 
-    // https://snazzymaps.com/editor/customize/15
     const map = new window.google.maps.Map(document.getElementById("map"), {
         zoom: 4,
         minZoom: 3,
@@ -134,230 +141,9 @@
         zoomControl: false,
         streetViewControl: false,
         mapTypeControl: false,
-        styles: [
-    {
-        "featureType": "administrative",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": "-100"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "saturation": "0"
-            },
-            {
-                "lightness": "9"
-            },
-            {
-                "gamma": "1.94"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.province",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": 65
-            },
-            {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": "50"
-            },
-            {
-                "visibility": "simplified"
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": "-100"
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "lightness": "61"
-            },
-            {
-                "color": "#3cc1e0"
-            },
-            {
-                "gamma": "0.94"
-            },
-            {
-                "saturation": "58"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "simplified"
-            },
-            {
-                "color": "#0075ff"
-            },
-            {
-                "saturation": "-38"
-            },
-            {
-                "lightness": "-9"
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "all",
-        "stylers": [
-            {
-                "lightness": "30"
-            },
-            {
-                "color": "#5e87f1"
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "all",
-        "stylers": [
-            {
-                "lightness": "40"
-            },
-            {
-                "color": "#1100ff"
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#002aff"
-            },
-            {
-                "saturation": "-48"
-            },
-            {
-                "lightness": "78"
-            },
-            {
-                "gamma": "1.23"
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": -100
-            },
-            {
-                "visibility": "simplified"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "all",
-        "stylers": [
-            {
-                "gamma": "10.00"
-            },
-            {
-                "lightness": "63"
-            },
-            {
-                "saturation": "8"
-            },
-            {
-                "weight": "7.35"
-            },
-            {
-                "visibility": "on"
-            },
-            {
-                "color": "#4d06f2"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "hue": "#ffff00"
-            },
-            {
-                "lightness": -25
-            },
-            {
-                "saturation": -97
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#008bff"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "labels",
-        "stylers": [
-            {
-                "lightness": -25
-            },
-            {
-                "saturation": -100
-            }
-        ]
-    }
-]
+        
+        // https://snazzymaps.com/editor/customize/15
+        styles: mapStyles()
       });
 
       if (direction.pickup && direction.destination) { 
@@ -393,7 +179,7 @@
   }
 
   const getDistance = async () => {
-    let res = await axios.get('http://localhost:4001/api/distance/' + direction.pickup + '/' + direction.destination)
+    let res = await axios.get('distance/' + direction.pickup + '/' + direction.destination)
 
     distance.value.text = res.data.rows[0].elements[0].distance.text
     distance.value.value = res.data.rows[0].elements[0].distance.value
