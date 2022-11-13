@@ -2,12 +2,12 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
   pwa: {
-    themeColor: "#000000",
-    msTileColor: "#000000",
-    backgroundColor: "#ffffff",
     name: "Uber clone",
     shortName: "Uber clone",
     description: "This is an Uber clone",
+    backgroundColor: "#ffffff",
+    themeColor: "#000000",
+    msTileColor: "#000000",
     display: "standalone",
     orientation: "portrait",
     appleMobileWebAppCapable: "yes",

@@ -95,7 +95,7 @@
 
 <script setup>
   import axios from 'axios';
-  import { onMounted, ref, watch } from 'vue'
+  import { onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
   import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue';
   import { useDirectionStore } from '@/store/direction-store';
@@ -105,7 +105,6 @@
   const router = useRouter()
   const direction = useDirectionStore()
 
-  let markers = []
   const distance = ref({text: '', value: null})
   const duration = ref({text: '', value: null})
   const latLng = ref({ start: { lat: null, lng: null }, end: { lat: null, lng: null } })
@@ -191,10 +190,6 @@
     let res = (price / 900) * multiplier
     return res.toFixed(2)
   }
-
-  watch(markers, () => {
-    console.log('console', markers)
-  })
 </script>
 
 <style lang="scss">
