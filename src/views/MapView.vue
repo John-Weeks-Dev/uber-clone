@@ -11,13 +11,13 @@
 
     <div id="map" />
 
-    <div id="VehicleSelection" class="absolute bottom-0 w-full">
+    <div id="VehicleSelection" class=" w-full">
       <div class="w-full h-2 border-t"></div>
       <div class="w-full text-center border-t-2 p-1.5 text-gray-700 text-lg font-semibold">
         Distance - {{ distance.text }}
       </div>
 
-      <div>
+      <div class="scrollSection">
 
         <div class="bg-custom-gray">
           <div class="flex items-center px-4 py-5">
@@ -202,7 +202,6 @@
   #map {
     width:100%;
     height: 45vh;
-    position: absolute;
     top: 0px;
     left: 0px;
   }
@@ -212,7 +211,12 @@
   }
 
   #VehicleSelection {
-    height: 55vh;
+    .scrollSection {
+      height: calc(50vh - 120px); 
+      position: absolute; 
+      overflow-y: auto; 
+      width: 100%
+    }
 
     .bg-custom-gray {
       background-color: rgb(237, 237, 237);

@@ -130,6 +130,7 @@
 
 <style lang="scss" scoped>
   #Directions {
+    height: 100vh;
     .bg-custom-color {
       background-color: rgb(237, 237, 237);
     }

@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "pwa": "npm run build && npx http-server dist"
+    "pwa": "npm run build && npx http-server dist",
+    "icons": "vue-asset-generate -a Uber.png -o public/img/icons/ -b '#000000'"
   },
   "dependencies": {
     "autoprefixer": "^10",
@@ -20,6 +21,7 @@
     "tailwindcss": "^3",
     "vue": "^3.2.13",
     "vue-material-design-icons": "^5.1.2",
+    "vue-pwa-asset-generator": "^1.7.2",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
