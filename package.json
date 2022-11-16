@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "pwa": "npm run build && npx http-server dist",
-    "icons": "vue-asset-generate -a Uber.png -o public/img/icons/ -b '#000000'"
+    "icons": "vue-asset-generate -a public/img/logo/Uber.png -o public/img/icons/ -b '#000000'"
   },
   "dependencies": {
     "autoprefixer": "^10",
