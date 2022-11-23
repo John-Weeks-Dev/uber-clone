@@ -48,11 +48,6 @@ npm run pwa
 Open another terminal
 ```
 cd server
-```
-
-Open another terminal
-```
-cd server
 
 npm i
 
