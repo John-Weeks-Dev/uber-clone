@@ -12,12 +12,64 @@ Come and check out my YOUTUBE channel for lots more tutorials -> https://www.you
 
 ## App Setup
 
-## Install the dependencies
-```bash
-yarn
-# or
-npm install
+Clone the repository
 ```
+git clone https://github.com/John-Weeks-Dev/uber-clone.git
+```
+
+Open a terminal, CD in to the folder and run these commands
+```
+npm i
+
+cp .env.example .env
+```
+
+Now go to https://console.cloud.google.com/
+
+Generate an API KEY.
+
+You'll need to ENABLE Maps API, Directions API, Places API, and Distance Matrix API.
+
+Add your new API KEY to the script inside **public/index.html**
+
+![Screenshot 2022-11-23 at 17 40 53](https://user-images.githubusercontent.com/108229029/203526600-42f9f3be-6e9d-4fcc-aff0-5d6c6c7e8d87.png)
+
+Now run this command to start the project 
+```
+npm run serve
+```
+
+And to start in PWA mode run the command
+```
+npm run pwa
+```
+![Screenshot 2022-11-23 at 17 44 01](https://user-images.githubusercontent.com/108229029/203527683-4b43f88e-07d8-4e2a-bfad-9a785afed02f.png)
+
+Open another terminal
+```
+cd server
+```
+
+Open another terminal
+```
+cd server
+
+npm i
+
+cp .env.example .env
+```
+
+Add the Google API Key to the .env
+
+```
+GOOGLE_MAPS_API_KEY=keyhere
+
+npm run watch
+```
+
+![Screenshot 2022-11-23 at 17 53 00](https://user-images.githubusercontent.com/108229029/203529049-d7790bc7-0d0e-4b20-80d5-9cea46017c57.png)
+
+You should be good to go!
 
 # Application Images
 
